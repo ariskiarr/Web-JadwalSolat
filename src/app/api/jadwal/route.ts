@@ -23,7 +23,7 @@ export async function GET(req: Request) {
     const mm = String(d.getMonth() + 1).padStart(2, "0");
     const dd = String(d.getDate()).padStart(2, "0");
     const url = `https://api.myquran.com/v2/sholat/jadwal/${kota}/${yyyy}/${mm}/${dd}`;
-    const res = await fetch(url, { next: { revalidate: 60 } });
+  const res = await fetch(url);
     const data = await res.json();
     if (data.status !== true) {
       return NextResponse.json(

@@ -4,9 +4,7 @@ export const revalidate = 60 * 60; // 1 jam
 
 export async function GET() {
   try {
-    const res = await fetch("https://api.myquran.com/v2/sholat/kota/semua", {
-      next: { revalidate: 60 * 60 },
-    });
+    const res = await fetch("https://api.myquran.com/v2/sholat/kota/semua");
     if (!res.ok) {
       return NextResponse.json(
         { ok: false, error: `HTTP ${res.status}` },
