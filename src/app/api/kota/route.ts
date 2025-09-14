@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const revalidate = 60 * 60; // 1 jam
+export const revalidate = 3600; // 1 jam
 
 export async function GET() {
   try {
