@@ -382,22 +382,22 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full text-white relative">
-      <header className="relative z-10 mx-auto max-w-5xl px-4 pt-12 pb-8">
-        <div className="flex flex-col items-center gap-6 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight bg-gradient-to-br from-emerald-100 via-white to-emerald-200 bg-clip-text text-transparent drop-shadow">
+      <header className="relative z-10 mx-auto max-w-5xl px-2 sm:px-4 pt-8 sm:pt-12 pb-6 sm:pb-8">
+        <div className="flex flex-col items-center gap-4 sm:gap-6 text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight leading-tight bg-gradient-to-br from-emerald-100 via-white to-emerald-200 bg-clip-text text-transparent drop-shadow">
             Jadwal Salat Indonesia
           </h1>
-          <p className="mt-1 text-white/70 text-sm md:text-base max-w-2xl">
+          <p className="mt-1 text-white/70 text-xs sm:text-sm md:text-base max-w-2xl">
             Cek jadwal salat harian dan bulanan seluruh kota di Indonesia.
             Highlight waktu berikutnya beserta hitung mundur dan pengingat
             sebelum adzan.
           </p>
         </div>
       </header>
-      <main className="relative z-10 mx-auto max-w-6xl px-4 pb-28 grid lg:grid-cols-5 gap-10">
+      <main className="relative z-10 mx-auto max-w-6xl px-2 sm:px-4 pb-20 sm:pb-28 grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-10">
         {/* Panel Kota */}
-        <aside className="lg:col-span-2 space-y-5">
-          <div className="rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 shadow-lg p-5 backdrop-blur-xl relative overflow-hidden group">
+        <aside className="lg:col-span-2 space-y-4 sm:space-y-5">
+          <div className="rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 shadow-lg p-3 sm:p-5 backdrop-blur-xl relative overflow-hidden group">
             <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.15),transparent_60%)]" />
             <h2 className="font-semibold mb-3 flex items-center gap-2">
               <MapPinIcon className="w-5 h-5" /> Pilih Kota
@@ -725,19 +725,37 @@ export default function Home() {
                   <div className="text-red-300 text-sm">{errorMonthly}</div>
                 )}
                 {jadwalBulanan && !errorMonthly && (
-                  <div className="rounded-xl border border-white/10 relative overflow-hidden">
-                    <table className="w-full text-[11px] md:text-xs table-fixed">
+                  <div className="rounded-xl border border-white/10 relative overflow-x-auto">
+                    <table className="min-w-[600px] w-full text-[11px] md:text-xs table-fixed">
                       <thead className="bg-white/10 backdrop-blur sticky top-0 z-10">
                         <tr className="text-left">
-                          <th className="px-3 py-2 w-[28%]">Tanggal</th>
-                          <th className="px-3 py-2 w-[8%]">Imsak</th>
-                          <th className="px-3 py-2 w-[8%]">Subuh</th>
-                          <th className="px-3 py-2 w-[8%]">Terbit</th>
-                          <th className="px-3 py-2 w-[8%]">Dhuha</th>
-                          <th className="px-3 py-2 w-[8%]">Dzuhur</th>
-                          <th className="px-3 py-2 w-[8%]">Ashar</th>
-                          <th className="px-3 py-2 w-[8%]">Maghrib</th>
-                          <th className="px-3 py-2 w-[8%]">Isya</th>
+                          <th className="px-2 sm:px-3 py-2 w-[28%] whitespace-nowrap">
+                            Tanggal
+                          </th>
+                          <th className="px-2 sm:px-3 py-2 w-[8%] whitespace-nowrap">
+                            Imsak
+                          </th>
+                          <th className="px-2 sm:px-3 py-2 w-[8%] whitespace-nowrap">
+                            Subuh
+                          </th>
+                          <th className="px-2 sm:px-3 py-2 w-[8%] whitespace-nowrap">
+                            Terbit
+                          </th>
+                          <th className="px-2 sm:px-3 py-2 w-[8%] whitespace-nowrap">
+                            Dhuha
+                          </th>
+                          <th className="px-2 sm:px-3 py-2 w-[8%] whitespace-nowrap">
+                            Dzuhur
+                          </th>
+                          <th className="px-2 sm:px-3 py-2 w-[8%] whitespace-nowrap">
+                            Ashar
+                          </th>
+                          <th className="px-2 sm:px-3 py-2 w-[8%] whitespace-nowrap">
+                            Maghrib
+                          </th>
+                          <th className="px-2 sm:px-3 py-2 w-[8%] whitespace-nowrap">
+                            Isya
+                          </th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-white/5">
@@ -752,12 +770,12 @@ export default function Home() {
                                   : ""
                               } hover:bg-white/5 transition-colors`}
                             >
-                              <td className="px-3 py-1 whitespace-nowrap">
+                              <td className="px-2 sm:px-3 py-1 whitespace-nowrap">
                                 {j.tanggal}
                               </td>
-                              <td className="px-3 py-1">{j.imsak}</td>
+                              <td className="px-2 sm:px-3 py-1">{j.imsak}</td>
                               <td
-                                className={`px-3 py-1 ${
+                                className={`px-2 sm:px-3 py-1 ${
                                   today && nextPrayerName === "Subuh"
                                     ? "text-emerald-300 font-bold"
                                     : ""
@@ -765,10 +783,14 @@ export default function Home() {
                               >
                                 {j.subuh}
                               </td>
-                              <td className="px-3 py-1">{j.terbit || "-"}</td>
-                              <td className="px-3 py-1">{j.dhuha || "-"}</td>
+                              <td className="px-2 sm:px-3 py-1">
+                                {j.terbit || "-"}
+                              </td>
+                              <td className="px-2 sm:px-3 py-1">
+                                {j.dhuha || "-"}
+                              </td>
                               <td
-                                className={`px-3 py-1 ${
+                                className={`px-2 sm:px-3 py-1 ${
                                   today && nextPrayerName === "Dzuhur"
                                     ? "text-emerald-300 font-bold"
                                     : ""
@@ -777,7 +799,7 @@ export default function Home() {
                                 {j.dzuhur}
                               </td>
                               <td
-                                className={`px-3 py-1 ${
+                                className={`px-2 sm:px-3 py-1 ${
                                   today && nextPrayerName === "Ashar"
                                     ? "text-emerald-300 font-bold"
                                     : ""
@@ -786,7 +808,7 @@ export default function Home() {
                                 {j.ashar}
                               </td>
                               <td
-                                className={`px-3 py-1 ${
+                                className={`px-2 sm:px-3 py-1 ${
                                   today && nextPrayerName === "Maghrib"
                                     ? "text-emerald-300 font-bold"
                                     : ""
@@ -795,7 +817,7 @@ export default function Home() {
                                 {j.maghrib}
                               </td>
                               <td
-                                className={`px-3 py-1 ${
+                                className={`px-2 sm:px-3 py-1 ${
                                   today && nextPrayerName === "Isya"
                                     ? "text-emerald-300 font-bold"
                                     : ""
@@ -808,19 +830,32 @@ export default function Home() {
                         })}
                       </tbody>
                     </table>
+                    <style jsx>{`
+                      @media (max-width: 640px) {
+                        table {
+                          font-size: 10px;
+                        }
+                        th,
+                        td {
+                          padding-left: 0.25rem;
+                          padding-right: 0.25rem;
+                          white-space: nowrap;
+                        }
+                      }
+                    `}</style>
                   </div>
                 )}
               </div>
             )}
           </div>
-          <footer className="text-[11px] text-white/40 text-center pt-4">
+          <footer className="text-[10px] sm:text-[11px] text-white/40 text-center pt-4 px-2">
             Jangan Lupa Solat Yahhhhhh..... -Arss
             {/* Sumber data: api.myquran.com • Mode:{" "}
             {mode === "daily" ? "Harian" : "Bulanan"} • Dibangun dengan Next.js */}
           </footer>
-          
         </section>
       </main>
+      {/* Responsive styles moved to globals.css */}
     </div>
   );
 }
