@@ -729,7 +729,7 @@ export default function Home() {
                     <table className="min-w-[600px] w-full text-[11px] md:text-xs table-fixed">
                       <thead className="bg-white/10 backdrop-blur sticky top-0 z-10">
                         <tr className="text-left">
-                          <th className="px-2 sm:px-3 py-2 w-[28%] whitespace-nowrap">
+                          <th className="px-2 sm:px-3 py-2 w-[16%] min-w-[90px] whitespace-nowrap">
                             Tanggal
                           </th>
                           <th className="px-2 sm:px-3 py-2 w-[8%] whitespace-nowrap">
@@ -770,7 +770,7 @@ export default function Home() {
                                   : ""
                               } hover:bg-white/5 transition-colors`}
                             >
-                              <td className="px-2 sm:px-3 py-1 whitespace-nowrap">
+                              <td className="px-2 sm:px-3 py-1 whitespace-nowrap min-w-[90px]">
                                 {j.tanggal}
                               </td>
                               <td className="px-2 sm:px-3 py-1">{j.imsak}</td>
