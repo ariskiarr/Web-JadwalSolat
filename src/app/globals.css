@@ -1,3 +1,20 @@
+select {
+  background: rgba(255,255,255,0.08) !important;
+  color: #fff !important;
+}
+select option {
+  background: #fff !important;
+  color: #222 !important;
+}
+select:focus,
+select:active {
+  outline: 2px solid #34d399;
+}
+select option:checked,
+select option:hover {
+  background: #b7f5d8 !important;
+  color: #171717 !important;
+}
 @import "tailwindcss";
 
 :root {
