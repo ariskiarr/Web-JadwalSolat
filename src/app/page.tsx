@@ -29,7 +29,7 @@ export default function Home() {
   const [loadingKota, setLoadingKota] = useState(true);
   const [errorKota, setErrorKota] = useState<string>("");
   const [date, setDate] = useState<string>(
-    () => new Date().toISOString().split("T")[0]
+    () => new Date().toISOString().split("T")[0],
   );
   const [error, setError] = useState<string>("");
   // Hindari membaca localStorage di server untuk mencegah hydration mismatch
@@ -170,6 +170,11 @@ export default function Home() {
         return;
       }
       const dateISO = base.date || date; // fallback ke input date
+      // Highlight & countdown hanya relevan untuk hari ini
+      if (!dayjs(dateISO).isSame(dayjs(), "day")) {
+        setNextPrayer(null);
+        return;
+      }
       const sequence: { name: string; time?: string }[] = [
         { name: "Imsak", time: base.imsak },
         { name: "Subuh", time: base.subuh },
@@ -189,7 +194,7 @@ export default function Home() {
       }
       setNextPrayer(null);
     },
-    [date]
+    [date],
   );
 
   // Hitung next prayer saat jadwal harian berubah
@@ -217,7 +222,7 @@ export default function Home() {
       setCountdown(
         `${hours.toString().padStart(2, "0")}:${mins
           .toString()
-          .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
+          .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`,
       );
     }, 1000);
     return () => clearInterval(interval);
@@ -267,12 +272,12 @@ export default function Home() {
         }
       });
     },
-    [notifyEnabled, notifyOffset, date]
+    [notifyEnabled, notifyOffset, date],
   );
 
   useEffect(() => {
-    if (mode === "daily") scheduleNotifications(jadwal);
-  }, [scheduleNotifications, jadwal, mode]);
+    if (mode === "daily" && selectedKota) scheduleNotifications(jadwal);
+  }, [scheduleNotifications, jadwal, mode, selectedKota]);
 
   // (hapus fitur test & simulasi notifikasi, tidak diperlukan lagi)
 
@@ -323,7 +328,7 @@ export default function Home() {
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
         setActiveIndex(
-          (i) => (i - 1 + filteredKota.length) % filteredKota.length
+          (i) => (i - 1 + filteredKota.length) % filteredKota.length,
         );
       } else if (e.key === "Enter") {
         if (activeIndex >= 0) {
@@ -334,7 +339,7 @@ export default function Home() {
         setActiveIndex(-1);
       }
     },
-    [filteredKota, activeIndex, commitSelection]
+    [filteredKota, activeIndex, commitSelection],
   );
 
   useEffect(() => {
@@ -381,10 +386,10 @@ export default function Home() {
   const nextPrayerName = nextPrayer?.name;
 
   return (
-    <div className="min-h-screen w-full text-white relative">
-      <header className="relative z-10 mx-auto max-w-5xl px-2 sm:px-4 pt-8 sm:pt-12 pb-6 sm:pb-8">
-        <div className="flex flex-col items-center gap-4 sm:gap-6 text-center">
-          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight leading-tight bg-gradient-to-br from-emerald-100 via-white to-emerald-200 bg-clip-text text-transparent drop-shadow">
+    <div className="min-h-dvh w-full text-white relative">
+      <header className="relative z-10 mx-auto max-w-5xl px-4 sm:px-4 pt-6 sm:pt-12 pb-5 sm:pb-8">
+        <div className="flex flex-col items-center gap-3 sm:gap-6 text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-semibold tracking-tight leading-tight">
             Jadwal Salat Indonesia
           </h1>
           <p className="mt-1 text-white/70 text-xs sm:text-sm md:text-base max-w-2xl">
@@ -394,17 +399,17 @@ export default function Home() {
           </p>
         </div>
       </header>
-      <main className="relative z-10 mx-auto max-w-6xl px-2 sm:px-4 pb-20 sm:pb-28 grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-10">
+      <main className="relative z-10 mx-auto max-w-6xl px-4 sm:px-4 pb-24 sm:pb-28 grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-10">
         {/* Panel Kota */}
         <aside className="lg:col-span-2 space-y-4 sm:space-y-5">
-          <div className="rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 shadow-lg p-3 sm:p-5 backdrop-blur-xl relative overflow-hidden group">
+          <div className="ios-card p-3 sm:p-5 relative overflow-hidden group">
             <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.15),transparent_60%)]" />
             <h2 className="font-semibold mb-3 flex items-center gap-2">
               <MapPinIcon className="w-5 h-5" /> Pilih Kota
             </h2>
             <div className="mb-4">
               <div
-                className="inline-flex w-full rounded-xl p-1 bg-white/10 border border-white/10 backdrop-blur [&>button]:flex-1 gap-1"
+                className="inline-flex w-full ios-segment [&>button]:flex-1 gap-1"
                 role="tablist"
                 aria-label="Mode jadwal"
               >
@@ -413,10 +418,10 @@ export default function Home() {
                   role="tab"
                   aria-selected={mode === "daily"}
                   onClick={() => setMode("daily")}
-                  className={`relative px-3 py-2 text-xs font-medium rounded-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70 ${
+                  className={`ios-segment-item ${
                     mode === "daily"
-                      ? "bg-emerald-500 text-white shadow shadow-emerald-500/30"
-                      : "text-white/70 hover:text-white hover:bg-white/15"
+                      ? "bg-white/20 text-white"
+                      : "text-white/70 hover:text-white hover:bg-white/10"
                   }`}
                 >
                   Harian
@@ -426,10 +431,10 @@ export default function Home() {
                   role="tab"
                   aria-selected={mode === "monthly"}
                   onClick={() => setMode("monthly")}
-                  className={`relative px-3 py-2 text-xs font-medium rounded-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70 ${
+                  className={`ios-segment-item ${
                     mode === "monthly"
-                      ? "bg-emerald-500 text-white shadow shadow-emerald-500/30"
-                      : "text-white/70 hover:text-white hover:bg-white/15"
+                      ? "bg-white/20 text-white"
+                      : "text-white/70 hover:text-white hover:bg-white/10"
                   }`}
                 >
                   Bulanan
@@ -454,7 +459,7 @@ export default function Home() {
                 onKeyDown={onKeyDown}
                 aria-autocomplete="list"
                 aria-controls="kota-listbox"
-                className="peer w-full px-3 py-2 rounded-lg bg-white/15 focus:bg-white/25 outline-none placeholder-white/60 text-sm border border-white/10 focus:ring-2 focus:ring-emerald-400/60 transition"
+                className="peer ios-input"
                 autoComplete="off"
               />
               {search && (
@@ -474,7 +479,7 @@ export default function Home() {
                 ref={listRef}
                 id="kota-listbox"
                 role="listbox"
-                className="max-h-72 overflow-y-auto pr-1 space-y-1 custom-scrollbar relative rounded-lg scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/20 hover:scrollbar-thumb-white/30"
+                className="max-h-60 sm:max-h-72 overflow-y-auto pr-1 space-y-1 relative rounded-xl"
               >
                 {loadingKota && (
                   <div className="text-xs text-white/70 animate-pulse px-2 py-1">
@@ -495,10 +500,10 @@ export default function Home() {
                         onClick={() => commitSelection(k)}
                         className={`w-full text-left px-3 py-2 rounded-md text-[13px] transition-colors flex items-center justify-between ${
                           active
-                            ? "bg-emerald-500 text-white shadow"
+                            ? "bg-emerald-500/60 text-white"
                             : focused
-                            ? "bg-white/25 text-white"
-                            : "bg-white/10 hover:bg-white/20 text-white/90"
+                              ? "bg-white/25 text-white"
+                              : "bg-white/10 hover:bg-white/20 text-white/90"
                         }`}
                       >
                         <span>{highlight(label)}</span>
@@ -529,7 +534,7 @@ export default function Home() {
               </div>
             )}
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 shadow p-5 backdrop-blur-xl relative overflow-hidden">
+          <div className="ios-card p-4 sm:p-5 relative overflow-hidden">
             <label className="text-sm font-medium mb-2 flex items-center gap-2">
               <CalendarDaysIcon className="w-4 h-4" /> Tanggal
             </label>
@@ -537,14 +542,14 @@ export default function Home() {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg bg-white/15 focus:bg-white/25 outline-none text-sm border border-white/10 focus:ring-2 focus:ring-emerald-400/60 transition"
+              className="ios-input"
             />
             {mode === "monthly" && (
               <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
                 <select
                   value={month}
                   onChange={(e) => setMonth(Number(e.target.value))}
-                  className="px-2 py-2 rounded bg-white/15 outline-none border border-white/10 focus:ring-2 focus:ring-emerald-400/60"
+                  className="ios-input px-2"
                 >
                   {Array.from({ length: 12 }).map((_, i) => (
                     <option key={i + 1} value={i + 1}>
@@ -555,7 +560,7 @@ export default function Home() {
                 <select
                   value={year}
                   onChange={(e) => setYear(Number(e.target.value))}
-                  className="px-2 py-2 rounded bg-white/15 outline-none border border-white/10 focus:ring-2 focus:ring-emerald-400/60"
+                  className="ios-input px-2"
                 >
                   {Array.from({ length: 5 }).map((_, i) => {
                     const y = new Date().getFullYear() - 2 + i;
@@ -569,7 +574,7 @@ export default function Home() {
               </div>
             )}
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 shadow p-5 backdrop-blur-xl text-xs space-y-4 relative overflow-hidden">
+          <div className="ios-card p-4 sm:p-5 text-xs space-y-4 relative overflow-hidden">
             <div className="flex items-start justify-between gap-4">
               <h3 className="font-semibold text-sm">Pengingat Adzan</h3>
               <button
@@ -581,7 +586,7 @@ export default function Home() {
                 }`}
               >
                 <span
-                  className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition ${
+                  className={`inline-block h-5 w-5 transform rounded-full bg-white transition ${
                     notifyEnabled ? "translate-x-5" : "translate-x-1"
                   }`}
                 />
@@ -612,8 +617,8 @@ export default function Home() {
             </div>
             {/* Kontrol volume & uji suara dihapus */}
             {nextPrayer && mode === "daily" && (
-              <div className="text-[11px] rounded-lg bg-emerald-500/10 border border-emerald-400/20 px-3 py-2 flex flex-col gap-0.5">
-                <span className="text-emerald-300 font-medium">
+              <div className="text-[11px] rounded-lg bg-sky-500/10 border border-sky-300/20 px-3 py-2 flex flex-col gap-0.5">
+                <span className="text-sky-200 font-medium">
                   Berikutnya: {nextPrayer.name} {nextPrayer.time}
                 </span>
                 {countdown && (
@@ -632,7 +637,7 @@ export default function Home() {
         </aside>
         {/* Panel Jadwal */}
         <section className="lg:col-span-3 space-y-6">
-          <div className="rounded-3xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 shadow-xl p-6 backdrop-blur-2xl relative overflow-hidden group">
+          <div className="ios-card-lg p-4 sm:p-6 relative overflow-hidden group">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity" />
             {!selectedKota && mode === "daily" && (
               <p className="text-white/70 text-sm">
@@ -648,73 +653,106 @@ export default function Home() {
             {error && !loading && (
               <div className="text-red-300 text-sm font-medium">{error}</div>
             )}
-            {mode === "daily" && jadwal && !loading && !error && (
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-xl font-semibold mb-1">
-                    Jadwal Hari Ini
-                  </h2>
-                  <p className="text-sm text-white/70">
-                    {(() => {
-                      // gunakan field date ISO jika ada, jika tidak parse pola dd/mm/yyyy dari jadwal.tanggal
-                      if (jadwal.date) {
-                        return dayjs(jadwal.date).format("dddd, DD MMMM YYYY");
-                      }
-                      // fallback: ekstrak dd/mm/yyyy dari string jadwal.tanggal
-                      const match = jadwal.tanggal.match(
-                        /(\d{2})\/(\d{2})\/(\d{4})/
-                      );
-                      if (match) {
-                        const d = match[1];
-                        const m = match[2];
-                        const y = match[3];
-                        return dayjs(`${y}-${m}-${d}`).format(
-                          "dddd, DD MMMM YYYY"
+            {mode === "daily" &&
+              selectedKota &&
+              jadwal &&
+              !loading &&
+              !error && (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-xl font-semibold mb-1">
+                      Jadwal Hari Ini
+                    </h2>
+                    <p className="text-sm text-white/70">
+                      {(() => {
+                        // gunakan field date ISO jika ada, jika tidak parse pola dd/mm/yyyy dari jadwal.tanggal
+                        if (jadwal.date) {
+                          return dayjs(jadwal.date).format(
+                            "dddd, DD MMMM YYYY",
+                          );
+                        }
+                        // fallback: ekstrak dd/mm/yyyy dari string jadwal.tanggal
+                        const match = jadwal.tanggal.match(
+                          /(\d{2})\/(\d{2})\/(\d{4})/,
                         );
-                      }
-                      return jadwal.tanggal;
-                    })()}
-                  </p>
+                        if (match) {
+                          const d = match[1];
+                          const m = match[2];
+                          const y = match[3];
+                          return dayjs(`${y}-${m}-${d}`).format(
+                            "dddd, DD MMMM YYYY",
+                          );
+                        }
+                        return jadwal.tanggal;
+                      })()}
+                    </p>
+                    {isHydrated && (
+                      <p className="mt-1 text-[11px] text-white/55">
+                        {nextPrayer
+                          ? `Highlight: ${nextPrayer.name} ${nextPrayer.time}`
+                          : dayjs().format("YYYY-MM-DD") !==
+                              (jadwal.date || date)
+                            ? "Highlight waktu berikutnya hanya tampil untuk tanggal hari ini."
+                            : "Semua waktu salat hari ini sudah lewat."}
+                      </p>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {(
+                      [
+                        ["Imsak", jadwal.imsak],
+                        ["Subuh", jadwal.subuh],
+                        ["Terbit", jadwal.terbit],
+                        ["Dhuha", jadwal.dhuha],
+                        ["Dzuhur", jadwal.dzuhur],
+                        ["Ashar", jadwal.ashar],
+                        ["Maghrib", jadwal.maghrib],
+                        ["Isya", jadwal.isya],
+                      ] as const
+                    ).map(([label, value]) => (
+                      <div
+                        key={label}
+                        className={`relative ios-glass rounded-2xl p-3 sm:p-4 flex flex-col gap-1 transition-all duration-300 ${
+                          nextPrayerName === label
+                            ? "bg-sky-500/18 border-sky-200/30 ring-2 ring-sky-200/70 shadow-lg shadow-sky-500/15 scale-[1.01]"
+                            : "hover:bg-white/12"
+                        }`}
+                      >
+                        {nextPrayerName === label && (
+                          <span className="absolute top-2 right-2 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-wide bg-sky-300/20 border border-sky-200/30 text-sky-50">
+                            Berikutnya
+                          </span>
+                        )}
+                        <span
+                          className={`text-xs uppercase tracking-wide ${
+                            nextPrayerName === label
+                              ? "text-sky-100"
+                              : "text-white/70"
+                          }`}
+                        >
+                          {label}
+                        </span>
+                        <span
+                          className={`text-lg font-semibold ${
+                            nextPrayerName === label
+                              ? "text-white"
+                              : "text-white"
+                          }`}
+                        >
+                          {value || "-"}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                  {(
-                    [
-                      ["Imsak", jadwal.imsak],
-                      ["Subuh", jadwal.subuh],
-                      ["Terbit", jadwal.terbit],
-                      ["Dhuha", jadwal.dhuha],
-                      ["Dzuhur", jadwal.dzuhur],
-                      ["Ashar", jadwal.ashar],
-                      ["Maghrib", jadwal.maghrib],
-                      ["Isya", jadwal.isya],
-                    ] as const
-                  ).map(([label, value]) => (
-                    <div
-                      key={label}
-                      className={`relative rounded-2xl bg-gradient-to-br from-emerald-400/15 to-teal-300/10 border border-white/10 p-4 flex flex-col gap-1 group transition-all duration-300 ${
-                        nextPrayerName === label
-                          ? "ring-2 ring-emerald-300/70 shadow-lg shadow-emerald-500/20 scale-[1.02]"
-                          : "hover:from-emerald-400/25 hover:to-teal-300/20 hover:shadow hover:shadow-emerald-500/10"
-                      }`}
-                    >
-                      <span className="text-xs uppercase tracking-wide text-white/70">
-                        {label}
-                      </span>
-                      <span className="text-lg font-semibold">
-                        {value || "-"}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+              )}
             {mode === "monthly" && selectedKota && !loading && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold">
                     Jadwal Bulan{" "}
                     {dayjs(
-                      `${year}-${String(month).padStart(2, "0")}-01`
+                      `${year}-${String(month).padStart(2, "0")}-01`,
                     ).format("MMMM YYYY")}
                   </h2>
                   {loadingMonthly && (

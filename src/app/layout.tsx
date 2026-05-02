@@ -41,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="scroll-smooth">
+    <html lang="id" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <meta name="color-scheme" content="light dark" />
         <meta
@@ -50,14 +50,15 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} font-sans antialiased bg-slate-950 text-white selection:bg-emerald-400/30 selection:text-emerald-100`}
+        suppressHydrationWarning
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} font-sans antialiased bg-transparent text-white selection:bg-white/20 selection:text-white`}
       >
         <div className="fixed inset-0 -z-10 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 via-teal-700 to-slate-900" />
-          <div className="absolute -top-40 -left-32 w-[32rem] h-[32rem] bg-emerald-500/25 blur-3xl rounded-full mix-blend-screen" />
-          <div className="absolute top-1/2 -right-40 w-[40rem] h-[40rem] bg-teal-400/20 blur-3xl rounded-full mix-blend-screen" />
-          <div className="absolute bottom-0 left-1/3 w-[28rem] h-[28rem] bg-emerald-300/10 blur-3xl rounded-full mix-blend-screen" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_60%)]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
+          <div className="absolute -top-40 -left-32 w-[32rem] h-[32rem] bg-emerald-500/20 blur-3xl rounded-full mix-blend-soft-light" />
+          <div className="absolute top-1/2 -right-40 w-[40rem] h-[40rem] bg-teal-400/15 blur-3xl rounded-full mix-blend-soft-light" />
+          <div className="absolute bottom-0 left-1/3 w-[28rem] h-[28rem] bg-emerald-300/10 blur-3xl rounded-full mix-blend-soft-light" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06),transparent_60%)]" />
         </div>
         {children}
       </body>
