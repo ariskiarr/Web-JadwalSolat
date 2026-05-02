@@ -402,8 +402,8 @@ export default function Home() {
       <main className="relative z-10 mx-auto max-w-6xl px-4 sm:px-4 pb-24 sm:pb-28 grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-10">
         {/* Panel Kota */}
         <aside className="lg:col-span-2 space-y-4 sm:space-y-5">
-          <div className="ios-card p-3 sm:p-5 relative overflow-hidden group">
-            <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.15),transparent_60%)]" />
+          <div className="ios-card p-3 sm:p-5 relative overflow-hidden ios-group">
+            <div className="pointer-events-none absolute inset-0 ios-group-glow bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.15),transparent_60%)]" />
             <h2 className="font-semibold mb-3 flex items-center gap-2">
               <MapPinIcon className="w-5 h-5" /> Pilih Kota
             </h2>
@@ -421,7 +421,7 @@ export default function Home() {
                   className={`ios-segment-item ${
                     mode === "daily"
                       ? "bg-white/20 text-white"
-                      : "text-white/70 hover:text-white hover:bg-white/10"
+                      : "ios-segment-item-inactive"
                   }`}
                 >
                   Harian
@@ -434,7 +434,7 @@ export default function Home() {
                   className={`ios-segment-item ${
                     mode === "monthly"
                       ? "bg-white/20 text-white"
-                      : "text-white/70 hover:text-white hover:bg-white/10"
+                      : "ios-segment-item-inactive"
                   }`}
                 >
                   Bulanan
@@ -468,7 +468,7 @@ export default function Home() {
                     setSearch("");
                     setActiveIndex(-1);
                   }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 rounded"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 rounded"
                 >
                   ✕
                 </button>
@@ -503,7 +503,7 @@ export default function Home() {
                             ? "bg-emerald-500/60 text-white"
                             : focused
                               ? "bg-white/25 text-white"
-                              : "bg-white/10 hover:bg-white/20 text-white/90"
+                              : "bg-white/10 text-white/90 ios-row-hover"
                         }`}
                       >
                         <span>{highlight(label)}</span>
@@ -527,7 +527,7 @@ export default function Home() {
                 <span>{errorKota}</span>
                 <button
                   onClick={retryKota}
-                  className="underline hover:text-white text-amber-200"
+                  className="underline text-amber-200"
                 >
                   Retry
                 </button>
@@ -637,8 +637,8 @@ export default function Home() {
         </aside>
         {/* Panel Jadwal */}
         <section className="lg:col-span-3 space-y-6">
-          <div className="ios-card-lg p-4 sm:p-6 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="ios-card-lg p-4 sm:p-6 relative overflow-hidden ios-group">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_70%)] ios-group-glow" />
             {!selectedKota && mode === "daily" && (
               <p className="text-white/70 text-sm">
                 Silakan pilih kota untuk melihat jadwal salat.
@@ -712,10 +712,10 @@ export default function Home() {
                     ).map(([label, value]) => (
                       <div
                         key={label}
-                        className={`relative ios-glass rounded-2xl p-3 sm:p-4 flex flex-col gap-1 transition-all duration-300 ${
+                        className={`relative ios-glass rounded-2xl p-3 sm:p-4 flex flex-col gap-1 ios-interactive ${
                           nextPrayerName === label
                             ? "bg-sky-500/18 border-sky-200/30 ring-2 ring-sky-200/70 shadow-lg shadow-sky-500/15 scale-[1.01]"
-                            : "hover:bg-white/12"
+                            : ""
                         }`}
                       >
                         {nextPrayerName === label && (
@@ -732,13 +732,7 @@ export default function Home() {
                         >
                           {label}
                         </span>
-                        <span
-                          className={`text-lg font-semibold ${
-                            nextPrayerName === label
-                              ? "text-white"
-                              : "text-white"
-                          }`}
-                        >
+                        <span className="text-lg font-semibold text-white">
                           {value || "-"}
                         </span>
                       </div>
@@ -806,7 +800,7 @@ export default function Home() {
                                 today
                                   ? "bg-emerald-500/25 font-semibold ring-1 ring-inset ring-emerald-400/40"
                                   : ""
-                              } hover:bg-white/5 transition-colors`}
+                              } ios-row-hover`}
                             >
                               <td className="px-2 sm:px-3 py-1 whitespace-nowrap min-w-[90px]">
                                 {j.tanggal}

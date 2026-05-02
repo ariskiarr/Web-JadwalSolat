@@ -84,7 +84,34 @@ body {
 
   .ios-button {
     @apply rounded-xl bg-white/10 border border-white/12;
-    @apply hover:bg-white/14 active:bg-white/16 transition;
+    @apply transition-colors duration-200;
+    @apply active:bg-white/16;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60;
+  }
+
+  /* Interactive surfaces (cards/rows) with subtle iOS-like hover */
+  .ios-interactive {
+    @apply transition-colors duration-200;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Table row hover (even more subtle than cards) */
+  .ios-row-hover {
+    @apply transition-colors duration-200;
+  }
+
+  /* Group glow that appears on hover (desktop) and focus (all) */
+  .ios-group-glow {
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  .ios-group:focus-within .ios-group-glow {
+    opacity: 1;
+  }
+
+  /* Inactive segment button hover (desktop only) */
+  .ios-segment-item-inactive {
+    @apply text-white/70;
   }
 }
