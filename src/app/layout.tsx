@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 
@@ -18,7 +18,6 @@ export const metadata: Metadata = {
     "Cek jadwal salat harian & bulanan seluruh kota di Indonesia. Highlight waktu berikutnya & pengingat sebelum adzan.",
   metadataBase: new URL("https://example.com"),
   applicationName: "Jadwal Salat Indonesia",
-  themeColor: "#059669",
   openGraph: {
     title: "Jadwal Salat Indonesia",
     description:
@@ -35,6 +34,13 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#059669",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -44,10 +50,6 @@ export default function RootLayout({
     <html lang="id" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <meta name="color-scheme" content="light dark" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
-        />
       </head>
       <body
         suppressHydrationWarning
